@@ -1,6 +1,8 @@
 let months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 function ageCalculate(){
+    setDefault();
+
     let birthDate = new Date(document.getElementById("start-date-input").value)
     
     let birthDateDetails = {
@@ -58,6 +60,7 @@ function ageCalculate(){
     }
     else{
         alert("Invalid Date");
+        setDefault();
     }
 
     displayResult(birthDate, birthMonth, birthYear);
@@ -109,4 +112,10 @@ function displayResult(bDate, bMonth, bYear){
     document.getElementById("years").textContent = bYear;
     document.getElementById("months").textContent = bMonth;
     document.getElementById("days").textContent = bDate;
+}
+
+function setDefault(){
+    document.getElementById("years").textContent = "-";
+    document.getElementById("months").textContent = "-";
+    document.getElementById("days").textContent = "-";
 }
