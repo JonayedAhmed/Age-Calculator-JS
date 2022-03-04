@@ -25,43 +25,66 @@ function ageCalculate(){
     isLeapYear = checkLeapYear(currentDateDetails.year);
     currentDateDetails.leapYear = isLeapYear;
 
-    //var validYear = checkYearValidity(currentDateDetails, birthDateDetails)
+    var validDate = checkValidity(birthDateDetails, currentDateDetails)
     
-    birthYear = currentDateDetails.year - birthDateDetails.year;
+    if(validDate){
+        birthYear = currentDateDetails.year - birthDateDetails.year;
     
-    if(currentDateDetails.month >= birthDateDetails.month){
-        birthMonth = currentDateDetails.month - birthDateDetails.month;
-    }
-
-    else{
-        birthYear--;
-        if(birthYear < 0){
-            birthYear = 0;  
+        if(currentDateDetails.month >= birthDateDetails.month){
+            birthMonth = currentDateDetails.month - birthDateDetails.month;
         }
-        birthMonth = 12 + currentDateDetails.month - birthDateDetails.month;
-    }
 
-    if(currentDateDetails.date >= birthDateDetails.date){
-        birthDate = currentDateDetails.date - birthDateDetails.date;
-    }
-    else{
-        birthMonth--;
-        days = checkDays(currentDateDetails);
-        console.log(days);
-        birthDate = days + currentDateDetails.date - birthDateDetails.date;
-        if(birthMonth < 0){
-            birthMonth = 11;
+        else{
             birthYear--;
+            if(birthYear < 0){
+                birthYear = 0;  
+            }
+            birthMonth = 12 + currentDateDetails.month - birthDateDetails.month;
         }
+
+        if(currentDateDetails.date >= birthDateDetails.date){
+            birthDate = currentDateDetails.date - birthDateDetails.date;
+        }
+        else{
+            birthMonth--;
+            days = checkDays(currentDateDetails);
+            console.log(days);
+            birthDate = days + currentDateDetails.date - birthDateDetails.date;
+            if(birthMonth < 0){
+                birthMonth = 11;
+                birthYear--;
+            }
+        }
+    }
+    else{
+        alert("Invalid Date");
     }
 
     displayResult(birthDate, birthMonth, birthYear);
 }
 
-function displayResult(bDate, bMonth, bYear){
-    document.getElementById("years").textContent = bYear;
-    document.getElementById("months").textContent = bMonth;
-    document.getElementById("days").textContent = bDate;
+
+
+
+function checkLeapYear(yearCheck){
+    if(yearCheck%4 == 0 || yearCheck%100 == 0){
+        return true;
+    }
+    return false;
+}
+
+function checkValidity(birthDetails, currentDetails){
+    if(birthDetails.year>currentDetails.year){
+        return false;
+    }
+    else if((birthDetails.year==currentDetails.year) && (birthDetails.month > currentDetails.month)){
+        return false;
+    }
+    else if((birthDetails.year==currentDetails.year) && (birthDetails.month == currentDetails.month) 
+    && (birthDetails.date > currentDetails.date)){
+        return false;
+    }
+    return true;
 }
 
 function checkDays(currentDateDetails){
@@ -82,9 +105,8 @@ function checkDays(currentDateDetails){
     return months[currentDateDetails.month - 1];
 }
 
-function checkLeapYear(yearCheck){
-    if(yearCheck%4 == 0 || yearCheck%100 == 0){
-        return true;
-    }
-    return false;
+function displayResult(bDate, bMonth, bYear){
+    document.getElementById("years").textContent = bYear;
+    document.getElementById("months").textContent = bMonth;
+    document.getElementById("days").textContent = bDate;
 }
